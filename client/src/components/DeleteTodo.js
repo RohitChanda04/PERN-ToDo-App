@@ -1,20 +1,18 @@
 import React, { useState } from 'react'
 
-const EditTodo = ({ todo }) => {
+const DeleteTodo = ({ todo }) => {
+    const [todos, setTodos] = useState([]);
+    // eslint-disable-next-line
     const [description, setDescription] = useState(todo.description);
 
-    const updateTodo = async (e) => {
-        e.preventDefault();
-
+    const deleteTodo = async (todo_id) => {
         try {
-            const body = {description};
             // eslint-disable-next-line
-            const response = await fetch(`http://localhost:3000/todos/update-todo/${todo.todo_id}`, {
-                method: "PUT",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(body)
+            const response = await fetch(`http://localhost:3000/todos/delete-todo/${todo_id}`, {
+                method: "DELETE"
             });
 
+            setTodos(todos.filter(todo => todo.todo_id !== todo_id));
             window.location = "/";
         }
         catch (error) {
@@ -24,30 +22,31 @@ const EditTodo = ({ todo }) => {
 
     return (
         <>
-            <button type="button"class="btn btn-info" data-toggle="modal"
-            data-target={`#edit-id${todo.todo_id}`}
+            <button type="button"class="btn btn-warning" data-toggle="modal"
+            data-target={`#delete-id${todo.todo_id}`}
             onClick={() => setDescription(todo.description)}>
-            Edit
+            Delete
             </button>
 
-            <div class="modal" id={`edit-id${todo.todo_id}`}>
+            <div class="modal" id={`delete-id${todo.todo_id}`}>
                 <div class="modal-dialog">
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Todo</h4>
+                            <h4 class="modal-title">Delete Todo</h4>
                             <button type="button" class="close" data-dismiss="modal" 
                             onClick={() => setDescription(todo.description)}>&times;</button>
                         </div>
 
                         <div class="modal-body">
-                            <input type='text' className='form-control' value={description} 
-                            onChange={e => setDescription(e.target.value)} />
+                            <h5><b>{todo.description}</b></h5>
+                            <hr></hr>
+                            <h6>Are you sure you want to delete it?</h6>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-info" data-dismiss="modal" 
-                            onClick={e => updateTodo(e)}>Edit</button>
+                            <button type="button" class="btn btn-warning" data-dismiss="modal" 
+                            onClick={e => deleteTodo(todo.todo_id)}>Delete</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal" 
                             onClick={() => setDescription(todo.description)}>Dismiss</button>
                         </div>
@@ -59,4 +58,4 @@ const EditTodo = ({ todo }) => {
     );
 }
 
-export default EditTodo
+export default DeleteTodo;
