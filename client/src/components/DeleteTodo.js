@@ -5,6 +5,7 @@ const DeleteTodo = ({ todo }) => {
     // eslint-disable-next-line
     const [description, setDescription] = useState(todo.description);
 
+    // function to delete todo
     const deleteTodo = async (todo_id) => {
         try {
             // eslint-disable-next-line
