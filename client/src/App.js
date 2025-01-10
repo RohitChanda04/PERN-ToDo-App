@@ -14,7 +14,7 @@ function App() {
         <table class="table table-hover text-center">
           <thead>
             <tr>
-              <th><h1><bold>List of Todos</bold></h1></th>
+              <th><h1><b>List of Todos</b></h1></th>
               <th><InputTodo1 /></th>
             </tr>
           </thead>
